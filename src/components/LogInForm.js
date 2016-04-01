@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { validateUser } from '../actions';
 
-let LoginForm = ( { dispatch } ) => {
+let LoginForm = ( { actions } ) => {
     let email, password;
 
     return (
@@ -13,7 +13,7 @@ let LoginForm = ( { dispatch } ) => {
                 return;
             }
 
-            dispatch( validateUser( email.value, password.value ) );
+            actions.validateUser( email.value, password.value );
             email.value = '';
             password.value = '';
         }}>
@@ -27,6 +27,8 @@ let LoginForm = ( { dispatch } ) => {
     );
 };
 
-LoginForm = connect()( LoginForm );
+LoginForm.propTypes = {
+    actions: PropTypes.object.isRequired
+};
 
 export default LoginForm;

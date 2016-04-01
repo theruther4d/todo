@@ -1,16 +1,29 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
+import User from '../components/User';
+import Title from '../components/Title';
+import EditButton from '../components/EditButton';
+import AddForm from '../components/AddForm';
 
-class Header extends Component {
-    constructor( props ) {
-        super( props );
-    }
+const Header = ( { currentUser, title, hasTodos, isEditing, actions } ) => {
 
-    render() {
-    }
+    return (
+        <nav className="navbar">
+            <div className="navbar__bar">
+                <User currentUser={currentUser} actions={actions} />
+                <Title title={title} actions={actions} />
+                <EditButton enabled={hasTodos} editing={isEditing} actions={actions} />
+            </div>
+            <AddForm currentUser={currentUser.user} actions={actions} />
+        </nav>
+    );
 };
 
-// Listen for updates:
-Header = connect( ( state ) => { return { state: state  } } )( Header );
+Header.propTypes = {
+    currentUser: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    hasTodos: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired
+};
 
 export default Header;

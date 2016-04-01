@@ -1,23 +1,10 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { addTodo } from '../actions';
+import React, { PropTypes } from 'react';
 
-const mapStateToProps = ( state ) => {
-    return {
-        users: state.users
-    }
-};
+const AddForm = ( { currentUser, actions } ) => {
+    let input;
 
-class AddForm extends Component {
-    constructor( props ) {
-        super( props );
-    }
-
-    render() {
-        let input;
-
-        return (
-            <form
+    return (
+        <form
             className="addTodo"
             onSubmit={ ( e ) => {
                 e.preventDefault();
@@ -27,30 +14,18 @@ class AddForm extends Component {
                     return;
                 }
 
-                this.props.dispatch( addTodo( text, this.getLoggedInUser( this.props.users ) ) );
+                actions.addTodo( text, currentUser );
                 input.value = '';
-            }}>
-                <input type="text" ref={ ( node ) => { input = node } } placeholder="add todo" />
-                <input type="submit" value="add" />
-            </form>
-        );
-    }
-
-    getLoggedInUser( users ) {
-        let loggedInUser = false;
-
-        Object.keys( users ).map( ( user ) => {
-            if( users[user].loggedIn ) {
-                loggedInUser = user;
-            }
-        });
-
-        return loggedInUser;
-    }
+        }}>
+            <input type="text" ref={ ( node ) => { input = node } } placeholder="add todo" />
+            <input type="submit" value="add" />
+        </form>
+    );
 };
 
-AddForm = connect(
-    mapStateToProps
-)( AddForm );
+AddForm.propTypes = {
+    currentUser: PropTypes.string.isRequired,
+    actions: PropTypes.object.isRequired
+};
 
 export default AddForm;

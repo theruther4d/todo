@@ -1,39 +1,27 @@
-import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
 import Counter from './Counter';
 
-class Tab extends Component {
-    constructor( props ) {
-        super( props );
-    }
-
-    render() {
-        const { viewFilter, onClick, name, children } = this.props;
-        const selected = viewFilter === this.props.state.view;
-        const selectedClass = `tab ${selected ? 'selected' : ''}`;
-
-        return (
-            <li
-                key={name}
-                className={`tab ${selectedClass}`}
-                onClick={onClick}
-            >
-                <div className="tab__inner">
-                    {this.props.children}
-                    {name}
-                    <Counter viewFilter={viewFilter} />
-                </div>
-            </li>
-        )
-    }
+const Tab = ( { icon, text, count, selected, onClick } ) => {
+    const selectedClass = `tab ${selected ? 'selected' : ''}`;
+    return (
+        <li
+            className={selectedClass}
+            onClick={onClick}
+        >
+            <div className="tab__inner">
+                {icon}
+                {text}
+                <Counter count={count} />
+            </div>
+        </li>
+    );
 };
 
-// Listen for updates:
-Tab = connect( ( state ) => { return { state: state  } } )( Tab );
-
-Tab.propTypes = {
-    viewFilter: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+Tab.proptypes = {
+    icon: PropTypes.element.isRequired,
+    text: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    selected: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired
 };
 
