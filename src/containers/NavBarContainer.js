@@ -7,6 +7,7 @@ import { setListTitle, setEditingState } from '../actions';
 class NavBarContainer extends Component {
     constructor( props ) {
         super( props );
+        this._editing = this.props.editingState;
     }
 
     render() {
@@ -29,7 +30,9 @@ class NavBarContainer extends Component {
                     <button className={editButtonClass} onClick={ ( e ) => {
                         e.preventDefault();
 
-                        this.props.dispatch( setEditingState( !this.props.state.editing ) );
+                        this._editing = !this._editing;
+
+                        this.props.dispatch( setEditingState( this._editing ) );
                     }}>
                         {editButtonText}
                     </button>

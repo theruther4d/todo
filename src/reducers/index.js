@@ -120,5 +120,6 @@ export const title = ( state = 'Untitled', action ) => {
 };
 
 export const editing = ( state = false, action ) => {
-    return typeof action.editingState === 'undefined' ? false : action.editingState;
+    // alert( 'editingState reducer called' );
+    return typeof action.editingState === 'undefined' ? state : action.editingState;
 };

@@ -7,17 +7,36 @@ class Counter extends Component {
     }
 
     render() {
+        const currentUser = this.getCurrentUser( this.props.users );
+        const count = this.getCount( currentUser );
         return (
-            <span className="counter">{this.getCount()}</span>
+            <span className="counter">{count}</span>
         );
     }
 
-    getCount() {
+    getCurrentUser( users ) {
+        let currentUser = null;
+
+        // Get the currently logged in user:
+        Object.keys( users ).map( ( user ) => {
+            if( users[user].loggedIn ) {
+                currentUser = user;
+            }
+        });
+
+        return currentUser;
+    }
+
+    getCount( currentUser ) {
         const todos = this.props.todos;
         const viewFilter = this.props.viewFilter;
         let count = 0;
 
         Object.keys( todos ).map( ( todo ) => {
+            if( todos[todo].author !== currentUser ) {
+                return;
+            }
+
             if( viewFilter === 'ALL' ) {
                 count++;
             } else if( viewFilter === 'TODO' && !todos[todo].completed ) {

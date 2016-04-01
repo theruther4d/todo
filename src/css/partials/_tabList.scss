@@ -1,0 +1,58 @@
+/*ul*/.tablist {
+    @include blur();
+    // position: fixed;
+    // bottom: 0;
+    // left: 0;
+    width: 100%;
+    z-index: 2;
+    transition: transform 0.25s ease;
+
+    .editing & {
+        transform: translate3d( 0, 100%, 0 );
+    }
+
+    &__inner {
+        @include content-container();
+        display: flex;
+        list-style: none;
+    }
+}
+
+/*li*/.tab {
+    font-size: 1.6rem;
+    color: rgba( 0, 0, 0, 0.3 );
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.25s ease;
+    padding: 8px 5px 5px;
+    user-select: none;
+
+    &__icon {
+        height: 24px;
+        width: auto;
+        display: block;
+        margin: 0 auto;
+        fill: rgba( 0, 0, 0, 0.3 );
+        margin-bottom: 6px;
+
+        .selected & {
+            fill: $tertiary;
+        }
+    }
+
+    &.selected {
+        color: $tertiary;
+    }
+
+    + .tab {
+        border-left: 1px solid rgba( 0, 0, 0, 0.1 );
+    }
+}
+
+.counter {
+    font-size: 1.2rem;
+    font-weight: 800;
+    vertical-align: top;
+    margin-left: 4px;
+}

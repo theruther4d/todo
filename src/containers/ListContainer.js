@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, toggleTodo, deleteTodo, editTodo } from '../actions';
+import { addTodo, toggleTodo, deleteTodo, editTodo, setEditingState } from '../actions';
 import List from '../components/List';
 
 class ListContainer extends Component {
@@ -24,6 +24,10 @@ class ListContainer extends Component {
         };
         const submit = ( _id, text ) => {
             this.props.dispatch( editTodo( _id, text ) );
+        }
+
+        if( state.editing && !Object.keys( todos ).length ) {
+            this.props.dispatch( setEditingState( false ) );
         }
 
         return (
@@ -72,6 +76,11 @@ class ListContainer extends Component {
         });
 
         return userTodos;
+    }
+
+    // Always start with editing turned off:
+    componentWillMount() {
+        this.props.dispatch( setEditingState( false ) );
     }
 };
 

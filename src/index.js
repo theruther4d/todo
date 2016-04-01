@@ -14,6 +14,10 @@ const createPersistentStore = compose(
 const reducer = combineReducers( reducers );
 const store = createPersistentStore( reducer );
 
+let listener = store.subscribe(() => {
+    console.log( store.getState() );
+});
+
 render(
     <Provider store={store}>
         <AppContainer />

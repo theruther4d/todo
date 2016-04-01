@@ -1,0 +1,53 @@
+/*nav*/.navbar {
+    width: 100%;
+    padding-top: 10px;
+    z-index: 3;
+
+    &__bar {
+        @include content-container();
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /*form*/&__title__form {
+        flex: 1;
+        padding: 0 10px;
+    }
+
+    /*input*/&__title {
+        text-align: center;
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+
+    /*button*/.edit {
+        min-width: 50px;
+        text-align: right;
+
+        &.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    }
+}
+
+/*form*/.addTodo {
+    @include content-container();
+    transition: opacity 0.5s ease, max-height 0.5s ease;
+    margin-top: 20px;
+    max-height: 40px;
+    overflow: hidden;
+
+    .editing & {
+        opacity: 0;
+        max-height: 0;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    input[type='submit'] {
+        display: none;
+    }
+}

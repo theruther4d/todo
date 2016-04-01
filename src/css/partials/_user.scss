@@ -1,0 +1,90 @@
+.user {
+    position: relative;
+
+    &__gravatar {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    &__settings {
+        width: 220px;
+        position: absolute;
+        top: 40px;
+        left: 5%;
+        color: $tertiary;
+        font-size: 1.2rem;
+        line-height: 1.5;
+        opacity: 0;
+        z-index: -1;
+        transform: scale( 0.8 );
+        pointer-events: none;
+        transition: opacity 0.3s ease, z-index 0.3s step-end, transform 0.3s ease;
+        font-weight: 600;
+
+        &__screen {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+
+            .settings--visible & {
+                pointer-events: auto;
+                z-index: 2;
+            }
+        }
+
+        .settings--visible & {
+            pointer-events: auto;
+            opacity: 1;
+            z-index: 3;
+            transform: scale( 1 );
+            transition: opacity 0.1s ease, z-index 0.1s step-start, transform 0.1s ease;
+
+            &__outer {
+                transition: box-shadow 0.25s ease;
+                box-shadow: 0 0 10px 0 rgba( darken( $primary, 40% ), 0.2 ),
+                            0 20px 14px -10px rgba( darken( $primary, 40% ), 0.3 );
+            }
+        }
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 10px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 6px 6px 6px;
+            border-color: transparent transparent rgba( 255, 255, 255, 0.7 ) transparent;
+            transform: translateZ( 0 );
+        }
+
+        &__outer {
+            border-radius: 10px;
+            overflow: hidden;
+            transform: translateZ( 0 );
+            transition: box-shadow 0.1s ease;
+        }
+
+        &__inner {
+            @include blur();
+            transform: translateZ( 0 );
+            padding: 20px;
+        }
+    }
+
+    &__email {
+        display: block;
+        font-weight: 400;
+    }
+
+    &__logout {
+        display: block;
+    }
+}

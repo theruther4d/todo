@@ -20,7 +20,13 @@ const List = ( { items, viewFilter, itemClick, editClick, deleteClick, submit, e
         }
         return (
             <ul className="todo">
-                <li className="todo__default">{message}</li>
+                <ReactCSSTransitionGroup
+                    transitionName="item"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}
+                >
+                    <li className="todo__default">{message}</li>
+                </ReactCSSTransitionGroup>
             </ul>
         );
     } else {
@@ -43,8 +49,6 @@ const List = ( { items, viewFilter, itemClick, editClick, deleteClick, submit, e
             <ul className="todo">
                 <ReactCSSTransitionGroup
                     transitionName="item"
-                    transitionAppear={true}
-                    transitionAppearTimeout={500}
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={500}
                 >
