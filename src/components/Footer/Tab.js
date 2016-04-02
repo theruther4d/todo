@@ -10,7 +10,7 @@ const Tab = ( { icon, text, count, selected, onClick } ) => {
         >
             <div className="tab__inner">
                 {icon}
-                {text}
+                <span className="tab__text">{text.toLowerCase()}</span>
                 <Counter count={count} />
             </div>
         </li>

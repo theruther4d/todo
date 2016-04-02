@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import User from '../components/User';
-import Title from '../components/Title';
-import EditButton from '../components/EditButton';
-import AddForm from '../components/AddForm';
+import User from '../components/Header/User';
+import Title from '../components/Header/Title';
+import EditButton from '../components/Header/EditButton';
+import AddForm from '../components/Header/AddForm';
 
 const Header = ( { currentUser, title, hasTodos, isEditing, actions } ) => {
 

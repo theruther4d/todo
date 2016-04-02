@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import Tab from '../components/Tab';
-import TodoIcon from '../components/TodoIcon';
-import CheckIcon from '../components/CheckIcon';
-import AllIcon from '../components/AllIcon';
+import Tab from '../components/Footer/Tab';
+import TodoIcon from '../components/Icons/TodoIcon';
+import CheckIcon from '../components/Icons/CheckIcon';
+import AllIcon from '../components/Icons/AllIcon';
 
 const Footer = ( { todos, viewFilter, actions } ) => {
     const views = {

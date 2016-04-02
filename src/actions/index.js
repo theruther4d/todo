@@ -32,6 +32,9 @@ export const toggleTodo = ( _id ) => {
     };
 };
 
+/**
+ * Action creator for editing the text of a todo.
+ */
 export const editTodo = ( _id, text ) => {
     return {
         type: 'EDIT',
@@ -40,6 +43,9 @@ export const editTodo = ( _id, text ) => {
     };
 };
 
+/**
+ * Action creator for deleting a todo.
+ */
 export const deleteTodo = ( _id ) => {
     return {
         type: 'DELETE',
@@ -47,6 +53,9 @@ export const deleteTodo = ( _id ) => {
     };
 };
 
+/**
+ * Action creator for logging in a user.
+ */
 export const validateUser = ( email, password ) => {
     return {
         type: 'VALIDATE_USER',
@@ -56,6 +65,9 @@ export const validateUser = ( email, password ) => {
     };
 };
 
+/**
+ * Action creator for logging out a user.
+ */
 export const logOutUser = ( email ) => {
     return {
         type:'LOG_OUT',
@@ -63,6 +75,9 @@ export const logOutUser = ( email ) => {
     };
 };
 
+/**
+ * Action creator for changing the current view.
+ */
 export const changeView = ( view ) => {
     return {
         type: 'SET_VIEW',
@@ -70,6 +85,9 @@ export const changeView = ( view ) => {
     };
 };
 
+/**
+ * Action creator for changing the title of a list.
+ */
 export const setListTitle = ( title ) => {
     return {
         type: 'SET_TITLE',
@@ -77,6 +95,9 @@ export const setListTitle = ( title ) => {
     };
 };
 
+/**
+ * Action creator for changing the editing state.
+ */
 export const setEditingState = ( editingState ) => {
     return {
         type: 'SET_EDITING_STATE',

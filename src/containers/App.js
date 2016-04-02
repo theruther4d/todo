@@ -5,11 +5,13 @@ import * as actions from '../actions';
 import Header from './Header';
 import List from './List';
 import Footer from './Footer';
-import LoginForm from '../components/LogInForm';
+import LoginForm from '../components/Body/LogInForm';
 
 class AppContainer extends Component {
     constructor( props ) {
         super( props );
+        this._isFirstRender = true;
+        console.dir( props.state );
     }
 
     render() {
@@ -51,11 +53,20 @@ class AppContainer extends Component {
         this._currentUser = this.getCurrentUser( state.users );
         this._currentView = this.getCurrentView( state );
         this._currentTitle = this.getCurrentTitle( state );
-        this._editingState = this.getEditingState( state ) === true;
         this._todos = this.getTodosForView( this.getTodosForUser( state.todos, this._currentUser.user ), this._currentView );
         this._currentTodos = this._todos[this._currentView];
         this._hasTodos = Object.keys( this._currentTodos ).length > 0;
         this._actions = this.getBoundActions( actions, dispatch );
+
+        // Force the editingState to false on reload
+        // and first render:
+        if( this._isFirstRender ) {
+            this._isFirstRender = false;
+            this._editingState = false;
+            dispatch( actions.setEditingState( false ) );
+        } else {
+            this._editingState = this.getEditingState( state ) === true;
+        }
 
         const editingClass = this._editingState ? 'editing' : '';
     }
@@ -142,23 +153,29 @@ class AppContainer extends Component {
         };
 
         Object.keys( userTodos ).map( ( todo ) => {
-            switch( view ) {
-                case 'ALL':
-                    viewTodos['ALL'][todo] = userTodos[todo];
-                break;
+            Object.keys( viewTodos ).map( ( view ) => {
+                const addToView = ( todo, view ) => {
+                    viewTodos[view][todo] = userTodos[todo];
+                };
 
-                case 'COMPLETED':
-                    if( userTodos[todo].completed ) {
-                        viewTodos['COMPLETED'][todo] = userTodos[todo];
-                    }
-                break;
+                switch( view ) {
+                    case 'ALL':
+                        addToView( todo, view );
+                    break;
 
-                case 'TODO':
-                    if( !userTodos[todo].completed ) {
-                        viewTodos['TODO'][todo] = userTodos[todo];
-                    };
-                break;
-            }
+                    case 'COMPLETED':
+                        if( userTodos[todo].completed ) {
+                            addToView( todo, view );
+                        }
+                    break;
+
+                    case 'TODO':
+                        if( !userTodos[todo].completed ) {
+                            addToView( todo, view );
+                        };
+                    break;
+                }
+            });
         });
 
         return viewTodos;

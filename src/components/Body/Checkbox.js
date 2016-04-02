@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import MinusIcon from './MinusIcon';
-import CheckIcon from './CheckIcon';
+import MinusIcon from '../Icons/MinusIcon';
+import CheckIcon from '../Icons/CheckIcon';
 
 const Checkbox = ( { completed, isEditing, onClick } ) => {
     let icon;

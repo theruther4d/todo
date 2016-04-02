@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { validateUser } from '../actions';
+import { validateUser } from '../../actions';
 
 let LoginForm = ( { actions } ) => {
     let email, password;

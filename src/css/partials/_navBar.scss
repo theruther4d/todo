@@ -9,14 +9,9 @@
         justify-content: space-between;
     }
 
-    /*form*/&__title__form {
-        flex: 1;
-        padding: 0 10px;
-    }
-
     /*input*/&__title {
         text-align: center;
-        width: 100%;
+        flex: 1;
         text-overflow: ellipsis;
     }
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import DefaultMessage from '../components/DefaultMessage';
-import Item from '../components/Item';
+import DefaultMessage from '../components/Body/DefaultMessage';
+import Item from '../components/Body/Item';
 
 const List = ( { hasTodos, viewFilter, todos, isEditing, actions } ) => {
     const content = hasTodos ? getListItems( todos, isEditing, actions ) : <DefaultMessage viewFilter={viewFilter} />;
