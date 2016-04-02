@@ -1,14 +1,4 @@
-/**
- * Generates a UUID.
- * Borrowed from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript/#answer-2117523
- */
-const generateUUID = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace( /[xy]/g, function( c ) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : ( r&0x3 | 0x8 );
-        return v.toString( 16 );
-    });
-};
-
+import { generateUUID } from '../helpers/UUID';
 
 /**
  * Action creator for adding a new todo:
@@ -103,4 +93,16 @@ export const setEditingState = ( editingState ) => {
         type: 'SET_EDITING_STATE',
         editingState: editingState
     };
+};
+
+/**
+ * Action creator for creating a list for a user.
+ */
+export const createList = ( author, name ) => {
+    return {
+        type: 'CREATE_LIST',
+        _id: generateUUID(),
+        author: author,
+        name: name
+    }
 };

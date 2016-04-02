@@ -23,7 +23,7 @@ Header.propTypes = {
     title: PropTypes.string.isRequired,
     hasTodos: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
 };
 
 export default Header;

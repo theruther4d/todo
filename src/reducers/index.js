@@ -1,6 +1,25 @@
 import { addTodo } from '../actions';
 import md5 from 'md5';
 
+
+export const lists = ( state = {}, action ) => {
+    // how can we dispatch an event at init
+    // that will create at least one list?
+    switch( action.type ) {
+        case 'CREATE_LIST':
+            return {
+                ...state,
+                [action._id]: {
+                    author: action.author,
+                    name: action.name
+                }
+            };
+
+        default:
+            return state;
+    }
+}
+
 export const todos = ( state = {}, action ) => {
     switch( action.type ) {
         case 'ADD':

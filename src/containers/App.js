@@ -11,7 +11,15 @@ class AppContainer extends Component {
     constructor( props ) {
         super( props );
         this._isFirstRender = true;
-        console.dir( props.state );
+    }
+
+    /** Create a list initially for the user when they log in if they don't already have one */
+    componentDidUpdate() {
+        const { dispatch } = this.props;
+
+        if( !this._userHasList && this._currentUser ) {
+            dispatch( actions.createList( this._currentUser.user, 'Untitled' ) );
+        }
     }
 
     render() {
@@ -30,6 +38,7 @@ class AppContainer extends Component {
                     actions={this._actions}
                     hasTodos={this._hasTodos}
                     isEditing={this._editingState}
+                    userHasList={this._userHasList}
                 />
                 <List
                     hasTodos={this._hasTodos}
@@ -57,6 +66,7 @@ class AppContainer extends Component {
         this._currentTodos = this._todos[this._currentView];
         this._hasTodos = Object.keys( this._currentTodos ).length > 0;
         this._actions = this.getBoundActions( actions, dispatch );
+        this._userHasList = this.checkUserHasList( this._currentUser.user, state.lists );
 
         // Force the editingState to false on reload
         // and first render:
@@ -69,6 +79,23 @@ class AppContainer extends Component {
         }
 
         const editingClass = this._editingState ? 'editing' : '';
+    }
+
+    /**
+     * Checks if the user has at least one list.
+     * @param {object} user.
+     * @return {boolean}
+     */
+    checkUserHasList( user, lists ) {
+        let hasList = false;
+
+        Object.keys( lists ).forEach( ( list ) => {
+            if( lists[list].author === user ) {
+                hasList = true;
+            }
+        });
+
+        return hasList;
     }
 
     /**
