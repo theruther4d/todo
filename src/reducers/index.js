@@ -3,8 +3,6 @@ import md5 from 'md5';
 
 
 export const lists = ( state = {}, action ) => {
-    // how can we dispatch an event at init
-    // that will create at least one list?
     switch( action.type ) {
         case 'CREATE_LIST':
             return {
@@ -12,6 +10,15 @@ export const lists = ( state = {}, action ) => {
                 [action._id]: {
                     author: action.author,
                     name: action.name
+                }
+            };
+
+        case 'SET_TITLE':
+            return {
+                ...state,
+                [action.list]: {
+                    ...state[action.list],
+                    name: action.title
                 }
             };
 
@@ -27,6 +34,7 @@ export const todos = ( state = {}, action ) => {
                 ...state,
                 [action._id]: {
                     author: action.author,
+                    list: action.list,
                     text: action.text,
                     completed: false
                 }
@@ -115,6 +123,15 @@ export const users = ( state = {}, action ) => {
                 }
             };
 
+        case 'SET_CURRENT_LIST':
+            return {
+                ...state,
+                [action.user]: {
+                    ...state[action.user],
+                    currentList: action.list
+                }
+            }
+
         default:
             return state;
     }
@@ -125,16 +142,6 @@ export const view = ( state = 'ALL', action ) => {
         return action.view;
     } else {
         return state;
-    }
-};
-
-export const title = ( state = 'Untitled', action ) => {
-    switch( action.type ) {
-        case 'SET_TITLE':
-            return action.title;
-
-        default:
-            return state;
     }
 };
 

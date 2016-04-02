@@ -3,12 +3,13 @@ import { generateUUID } from '../helpers/UUID';
 /**
  * Action creator for adding a new todo:
  */
-export const addTodo = ( text, user ) => {
+export const addTodo = ( text, user, list ) => {
     return {
         type: 'ADD',
         _id: generateUUID(),
         text: text,
-        author: user
+        author: user,
+        list: list
     };
 };
 
@@ -76,16 +77,6 @@ export const changeView = ( view ) => {
 };
 
 /**
- * Action creator for changing the title of a list.
- */
-export const setListTitle = ( title ) => {
-    return {
-        type: 'SET_TITLE',
-        title: title
-    };
-};
-
-/**
  * Action creator for changing the editing state.
  */
 export const setEditingState = ( editingState ) => {
@@ -98,11 +89,33 @@ export const setEditingState = ( editingState ) => {
 /**
  * Action creator for creating a list for a user.
  */
-export const createList = ( author, name ) => {
+export const createList = ( author, name = 'Untitled' ) => {
     return {
         type: 'CREATE_LIST',
         _id: generateUUID(),
         author: author,
         name: name
     }
+};
+
+/**
+ * Action creator for setting the user's current list.
+ */
+export const setCurrentListForUser = ( user, list ) => {
+    return {
+        type: 'SET_CURRENT_LIST',
+        user: user,
+        list: list
+    }
+};
+
+/**
+ * Action creator for changing the title of a list.
+ */
+export const setListTitle = ( list, title ) => {
+    return {
+        type: 'SET_TITLE',
+        list: list,
+        title: title
+    };
 };

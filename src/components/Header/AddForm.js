@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const AddForm = ( { currentUser, actions } ) => {
+const AddForm = ( { currentUser, currentList, actions } ) => {
     let input;
 
     return (
@@ -14,7 +14,7 @@ const AddForm = ( { currentUser, actions } ) => {
                     return;
                 }
 
-                actions.addTodo( text, currentUser );
+                actions.addTodo( text, currentUser, currentList );
                 input.value = '';
         }}>
             <input type="text" ref={ ( node ) => { input = node } } placeholder="add todo" />
@@ -25,6 +25,7 @@ const AddForm = ( { currentUser, actions } ) => {
 
 AddForm.propTypes = {
     currentUser: PropTypes.string.isRequired,
+    currentList: PropTypes.string.isRequired,
     actions: PropTypes.object.isRequired
 };
 

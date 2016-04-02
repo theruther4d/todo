@@ -1,19 +1,20 @@
 import React, { PropTypes } from 'react';
 
-const Title = ( { title, actions } ) => {
+const Title = ( { currentTitle, currentList, actions } ) => {
     let input;
 
     return (
-        <input className="navbar__title plain" defaultValue={title} onBlur={ ( e ) => {
+        <input className="navbar__title plain" defaultValue={currentTitle} onBlur={ ( e ) => {
             e.preventDefault();
 
-            actions.setListTitle( e.target.value );
+            actions.setListTitle( currentList, e.target.value );
         }} />
     );
 };
 
 Title.propTypes = {
-    title: PropTypes.string.isRequired,
+    currentTitle: PropTypes.string.isRequired,
+    currentList: PropTypes.string.isRequired,
     actions: PropTypes.object.isRequired
 };
 

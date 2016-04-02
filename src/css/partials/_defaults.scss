@@ -28,6 +28,12 @@ main {
 main {
     display: flex;
     flex-direction: column;
+
+    @include bp( 700px ) {
+        &.app {
+            padding-left: 200px;
+        }
+    }
 }
 
 button {

@@ -3,17 +3,38 @@ import User from '../components/Header/User';
 import Title from '../components/Header/Title';
 import EditButton from '../components/Header/EditButton';
 import AddForm from '../components/Header/AddForm';
+import ListSwitcher from '../components/Header/ListSwitcher/ListSwitcher';
 
-const Header = ( { currentUser, title, hasTodos, isEditing, actions } ) => {
-
+const Header = ( { currentUser, title, hasTodos, isEditing, currentList, lists, actions } ) => {
     return (
         <nav className="navbar">
             <div className="navbar__bar">
-                <User currentUser={currentUser} actions={actions} />
-                <Title title={title} actions={actions} />
-                <EditButton enabled={hasTodos} editing={isEditing} actions={actions} />
+                <User
+                    currentUser={currentUser}
+                    actions={actions}
+                />
+                <Title
+                    key={title}
+                    currentTitle={title}
+                    actions={actions}
+                    currentList={currentList}
+                />
+                <ListSwitcher
+                    currentUser={currentUser.user}
+                    lists={lists}
+                    actions={actions}
+                />
+                <EditButton
+                    enabled={hasTodos}
+                    editing={isEditing}
+                    actions={actions}
+                />
             </div>
-            <AddForm currentUser={currentUser.user} actions={actions} />
+            <AddForm
+                currentUser={currentUser.user}
+                currentList={currentList}
+                actions={actions}
+            />
         </nav>
     );
 };
@@ -23,6 +44,8 @@ Header.propTypes = {
     title: PropTypes.string.isRequired,
     hasTodos: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    currentList: PropTypes.string.isRequired,
+    lists: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
 };
 

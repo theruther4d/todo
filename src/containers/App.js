@@ -18,13 +18,15 @@ class AppContainer extends Component {
         const { dispatch } = this.props;
 
         if( !this._userHasList && this._currentUser ) {
-            dispatch( actions.createList( this._currentUser.user, 'Untitled' ) );
+            this._currentList = dispatch( actions.createList( this._currentUser.user, 'Untitled' ) )._id;
+
+            dispatch( actions.setCurrentListForUser( this._currentUser.user, this._currentList ) );
         }
     }
 
     render() {
         this.getProps();
-        const editingClass = this._editingState ? 'editing' : '';
+        const editingClass = `app ${this._editingState ? 'editing' : ''}`;
 
         return this._currentUser === false ? (
             <main>
@@ -39,6 +41,8 @@ class AppContainer extends Component {
                     hasTodos={this._hasTodos}
                     isEditing={this._editingState}
                     userHasList={this._userHasList}
+                    currentList={this._currentList}
+                    lists={this._userLists}
                 />
                 <List
                     hasTodos={this._hasTodos}
@@ -60,13 +64,15 @@ class AppContainer extends Component {
     getProps() {
         const { state, dispatch } = this.props;
         this._currentUser = this.getCurrentUser( state.users );
+        this._currentList = this.getCurrentList( this._currentUser.user, state.users );
         this._currentView = this.getCurrentView( state );
-        this._currentTitle = this.getCurrentTitle( state );
-        this._todos = this.getTodosForView( this.getTodosForUser( state.todos, this._currentUser.user ), this._currentView );
+        this._currentTitle = this.getCurrentTitle( this._currentList, state.lists );
+        this._todos = this.getTodosForView( this.getTodosForUser( state.todos, this._currentUser.user, this._currentList ), this._currentView );
         this._currentTodos = this._todos[this._currentView];
         this._hasTodos = Object.keys( this._currentTodos ).length > 0;
         this._actions = this.getBoundActions( actions, dispatch );
         this._userHasList = this.checkUserHasList( this._currentUser.user, state.lists );
+        this._userLists = this.getListsForUser( this._currentUser.user, state );
 
         // Force the editingState to false on reload
         // and first render:
@@ -79,6 +85,26 @@ class AppContainer extends Component {
         }
 
         const editingClass = this._editingState ? 'editing' : '';
+    }
+
+    getCurrentList( user, users ) {
+        if( typeof user === 'undefined' ) {
+            return '';
+        }
+
+        return users[user].currentList || '';
+    }
+
+    getListsForUser( userName, state ) {
+        let userLists = {};
+
+        Object.keys( state.lists ).map( ( list ) => {
+            if( state.lists[list].author === userName ) {
+                userLists[list] = state.lists[list];
+            }
+        });
+
+        return userLists;
     }
 
     /**
@@ -133,8 +159,13 @@ class AppContainer extends Component {
      * @param {object} state.
      * @return {string} title.
      */
-    getCurrentTitle( state ) {
-        return state.title;
+    getCurrentTitle( list, lists ) {
+        if( typeof list === 'undefined' ) {
+            return 'Untitled';
+        }
+
+        const returnValue =  lists[list] ? lists[list].name : 'Untitled';
+        return returnValue;
     }
 
     /**
@@ -152,11 +183,11 @@ class AppContainer extends Component {
      * @param {string} user - the email address of the user.
      * @return {object} userTodos.
      */
-    getTodosForUser( todos, user ) {
+    getTodosForUser( todos, user, list ) {
         let userTodos = {};
 
         Object.keys( todos ).map( ( todo ) => {
-            if( todos[todo].author !== user ) {
+            if( todos[todo].author !== user || todos[todo].list !== list ) {
                 return;
             }
 

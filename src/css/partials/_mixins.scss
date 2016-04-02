@@ -2,7 +2,7 @@
     width: 100%;
     padding-right: 5%;
     padding-left: 5%;
-    max-width: 600px;
+    max-width: 800px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -10,4 +10,10 @@
 @mixin blur( $color: rgba( $white, 0.7 ) ) {
     background: $color;
     backdrop-filter: blur( 10px ) saturate( 150% ) brightness( 120% );
+}
+
+@mixin bp($media) {
+    @media all and (min-width: $media) {
+        @content;
+    }
 }
