@@ -119,3 +119,23 @@ export const setListTitle = ( list, title ) => {
         title: title
     };
 };
+
+/**
+ * Action creator for setting list editing status.
+ */
+export const setListEditing = ( listEditingState ) => {
+    return {
+        type: 'SET_LIST_EDITING_STATE',
+        listEditingState: listEditingState
+    };
+};
+
+/**
+ * Action creator for deleting a list.
+ */
+export const deleteList = ( _id ) => {
+    return {
+        type: 'DELETE_LIST',
+        _id: _id
+    };
+};

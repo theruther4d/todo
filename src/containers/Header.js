@@ -5,7 +5,7 @@ import EditButton from '../components/Header/EditButton';
 import AddForm from '../components/Header/AddForm';
 import ListSwitcher from '../components/Header/ListSwitcher/ListSwitcher';
 
-const Header = ( { currentUser, title, hasTodos, isEditing, currentList, lists, actions } ) => {
+const Header = ( { currentUser, title, hasTodos, isEditing, listEditingState,  currentList, lists, listTodos, actions } ) => {
     return (
         <nav className="navbar">
             <div className="navbar__bar">
@@ -23,12 +23,19 @@ const Header = ( { currentUser, title, hasTodos, isEditing, currentList, lists, 
                     currentUser={currentUser.user}
                     lists={lists}
                     actions={actions}
+                    listTodos={listTodos}
+                    currentList={currentList}
+                    listEditingState={listEditingState}
                 />
                 <EditButton
                     enabled={hasTodos}
                     editing={isEditing}
                     actions={actions}
-                />
+                    onClick={ ( e ) => {
+                        e.preventDefault();
+
+                        actions.setEditingState( !isEditing );
+                }}/>
             </div>
             <AddForm
                 currentUser={currentUser.user}
@@ -44,8 +51,10 @@ Header.propTypes = {
     title: PropTypes.string.isRequired,
     hasTodos: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    listEditingState: PropTypes.bool.isRequired,
     currentList: PropTypes.string.isRequired,
     lists: PropTypes.object.isRequired,
+    listTodos: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
 };
 

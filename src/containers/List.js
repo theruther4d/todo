@@ -3,8 +3,24 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import DefaultMessage from '../components/Body/DefaultMessage';
 import Item from '../components/Body/Item';
 
-const List = ( { hasTodos, viewFilter, todos, isEditing, actions } ) => {
+const List = ( { hasTodos, viewFilter, todos, isEditing, actions, currentList, lists, currentUser } ) => {
     const content = hasTodos ? getListItems( todos, isEditing, actions ) : <DefaultMessage viewFilter={viewFilter} />;
+
+    if( !hasTodos ) {
+        actions.setEditingState( false );
+    }
+
+    if( isEditing && content.length ) {
+        content.unshift(
+            <DeleteItem
+                key="delete-item"
+                actions={actions}
+                currentList={currentList}
+                lists={lists}
+                currentUser={currentUser}
+            />
+        );
+    }
 
     return (
         <ul className="todo">
@@ -16,6 +32,33 @@ const List = ( { hasTodos, viewFilter, todos, isEditing, actions } ) => {
                 {content}
             </ReactCSSTransitionGroup>
         </ul>
+    );
+};
+
+const DeleteItem = ( { actions, currentList, lists, currentUser } ) => {
+    return (
+        <li
+            className="mobile-delete-list"
+            onClick={ () => {
+                actions.deleteList( currentList );
+                actions.setEditingState( false );
+
+                let nextList = false;
+                Object.keys( lists ).map( ( list ) => {
+                    if( list !== currentList ) {
+                        nextList = list;
+                    }
+                });
+
+                if( !nextList ) {
+                    actions.setCurrentListForUser( currentUser.user, actions.createList( currentUser, 'Untitled' )._id );
+                } else {
+                    actions.setCurrentListForUser( currentUser.user, nextList );
+                }
+            }}
+        >
+            Delete this list
+        </li>
     );
 };
 
@@ -40,7 +83,10 @@ List.propTypes = {
     viewFilter: PropTypes.string.isRequired,
     todos: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    currentList: PropTypes.string.isRequired,
+    lists: PropTypes.object.isRequired,
+    currentUser: PropTypes.object.isRequired
 };
 
 export default List;

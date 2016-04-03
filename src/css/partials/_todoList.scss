@@ -14,6 +14,37 @@
         line-height: 1.5;
     }
 
+    .mobile-delete-list {
+        padding: 0 5%;
+        background: $quarternary;
+        cursor: pointer;
+        height: 67px;
+        line-height: 67px;
+        max-height: 67px;
+        overflow: hidden;
+
+        &.item-enter {
+            max-height: 0;
+            transition: max-height 0.5s ease;
+        }
+
+        &.item-enter-active {
+            max-height: 67px;
+        }
+
+        &.item-leave {
+            transition: max-height 0.5s ease;
+        }
+
+        &.item-leave-active {
+            max-height: 0;
+        }
+
+        @include bp( 700px ) {
+            display: none;
+        }
+    }
+
     &__default {
         @include content-container();
         padding-top: 20px;

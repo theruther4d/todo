@@ -22,6 +22,11 @@ export const lists = ( state = {}, action ) => {
                 }
             };
 
+        case 'DELETE_LIST':
+            let newState = { ...state };
+            delete newState[action._id];
+            return newState;
+
         default:
             return state;
     }
@@ -147,4 +152,14 @@ export const view = ( state = 'ALL', action ) => {
 
 export const editing = ( state = false, action ) => {
     return typeof action.editingState === 'undefined' ? state : action.editingState;
+};
+
+export const listEditing = ( state = false, action ) => {
+    switch( action.type ) {
+        case 'SET_LIST_EDITING_STATE':
+            return action.listEditingState;
+
+        default:
+            return state;
+    };
 };

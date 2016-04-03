@@ -2,13 +2,30 @@
     position: relative;
     padding-right: 10px;
 
+    &__header {
+
+        .edit {
+            display: none;
+        }
+
+        @include bp( 700px ) {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px 10px;
+
+            .edit {
+                display: block;
+            }
+        }
+    }
+
     @include bp( 700px ) {
         @include blur();
         position: fixed;
         top: 0;
         right: 0;
         left: 0;
-        width: 200px;
+        width: 300px;
         height: 100%;
         box-shadow: inset -6px 0 15px 0 rgba( darken( $primary, 40% ), 0.2 );
         color: $primary;
@@ -126,13 +143,74 @@
         }
 
         &__item {
-            padding: 8px 10px 4px;
+            padding-left: 62px;
             border-bottom: 1px solid $primary;
             border-bottom: 1px solid rgba( $primary, 0.5 );
             cursor: pointer;
+            user-select: none;
+
+            &.selected {
+                background: rgba( $primary, 0.1 );
+            }
 
             &:last-of-type {
                 border-bottom: 0;
+            }
+
+            &__inner {
+                position: relative;
+                display: flex;
+                width: calc( 100% + 42px );
+                left: -42px;
+                transition: transform 0.25s ease;
+                padding: 10px 0;
+
+                .is--editing & {
+                    transform: translate3d( 42px, 0, 0 );
+                }
+            }
+
+            .todo__item__check {
+                // 62
+                top: 0;
+                bottom: 0;
+                left: -42px;
+                margin: auto;
+
+                .is--editing & {
+                    border-color: transparent;
+                }
+
+                svg {
+                    fill: $quarternary;
+
+                    .is--editing & {
+                        opacity: 1;
+                        transform: scale( 1 );
+                    }
+                }
+            }
+
+            .todo__item__delete {
+                transform: translate3d( 100px, 0, 0 );
+                transition: transform 0.25s ease;
+                color: $white;
+            }
+
+            &.will-delete .todo__item__delete {
+                transform: translate3d( -42px, 0, 0 );
+            }
+
+            &__text {
+                overflow: hidden;
+
+                &__inner {
+                    transition: transform 0.25s ease;
+
+                    .will-delete & {
+                        transform: translate3d( -100px, 0, 0 );
+                    }
+                }
             }
         }
     }

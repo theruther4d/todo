@@ -1,15 +1,14 @@
 import React, { PropTypes } from 'react';
 
-const EditButton = ( { enabled, editing, actions } ) => {
+const EditButton = ( { enabled, editing, defaultText, editingText, onClick } ) => {
     const buttonClass = `edit plain ${enabled ? '' : 'disabled'}`;
-    const buttonText = editing ? 'Done' : 'Edit';
+    const buttonText = editing ? ( editingText || 'Done' ) : 'Edit';
 
     return (
-        <button className={buttonClass} onClick={ ( e ) => {
-            e.preventDefault();
-
-            actions.setEditingState( !editing );
-        }}>
+        <button
+            className={buttonClass}
+            onClick={onClick}
+        >
             {buttonText}
         </button>
     );
@@ -17,8 +16,9 @@ const EditButton = ( { enabled, editing, actions } ) => {
 
 EditButton.propTypes = {
     enabled: PropTypes.bool.isRequired,
+    editingText: PropTypes.string,
     editing: PropTypes.bool.isRequired,
-    actions: PropTypes.object.isRequired
+    onClick: PropTypes.func.isRequired
 };
 
 export default EditButton;

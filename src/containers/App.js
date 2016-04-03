@@ -43,6 +43,8 @@ class AppContainer extends Component {
                     userHasList={this._userHasList}
                     currentList={this._currentList}
                     lists={this._userLists}
+                    listTodos={this._todosByList}
+                    listEditingState={this._listEditingState}
                 />
                 <List
                     hasTodos={this._hasTodos}
@@ -50,6 +52,9 @@ class AppContainer extends Component {
                     todos={this._currentTodos}
                     isEditing={this._editingState}
                     actions={this._actions}
+                    currentList={this._currentList}
+                    lists={this._userLists}
+                    currentUser={this._currentUser}
                 />
                 <Footer
                     todos={this._todos}
@@ -73,18 +78,26 @@ class AppContainer extends Component {
         this._actions = this.getBoundActions( actions, dispatch );
         this._userHasList = this.checkUserHasList( this._currentUser.user, state.lists );
         this._userLists = this.getListsForUser( this._currentUser.user, state );
+        this._todosByList = this.getTodosByList( state.todos );
 
         // Force the editingState to false on reload
         // and first render:
         if( this._isFirstRender ) {
             this._isFirstRender = false;
             this._editingState = false;
+            this._listEditingState = false;
             dispatch( actions.setEditingState( false ) );
+            dispatch( actions.setListEditing( false ) );
         } else {
             this._editingState = this.getEditingState( state ) === true;
+            this._listEditingState = this.getListEditingState( state );
         }
 
         const editingClass = this._editingState ? 'editing' : '';
+    }
+
+    getListEditingState( state ) {
+        return state.listEditing;
     }
 
     getCurrentList( user, users ) {
@@ -237,6 +250,31 @@ class AppContainer extends Component {
         });
 
         return viewTodos;
+    }
+
+    /**
+     * Returns todos for the current list.
+     * @param {object} userTodos - the current user's todos.
+     * @param {string} view - the current view.
+     * @return {object} todos.
+     */
+    getTodosByList( todos ) {
+        let listTodos = {};
+
+        Object.keys( todos ).map( ( key ) => {
+            const todo = todos[key];
+
+            if( !listTodos.hasOwnProperty( todo.list ) ) {
+                listTodos[todo.list] = {
+                    [key]: todo
+                };
+            } else {
+                listTodos[todo.list][key] = todo;
+            }
+
+        });
+
+        return listTodos;
     }
 
     /**

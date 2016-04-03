@@ -28,10 +28,9 @@ const Item = ( { _id, text, completed, isEditing, actions } ) => {
                 />
             </div>
             <DeleteButton
-                isEditing={isEditing}
-                _id={_id}
-                item={item}
-                actions={actions}
+                onClick={ () =>{
+                    actions.deleteTodo( _id );
+                }}
             />
         </li>
     );
